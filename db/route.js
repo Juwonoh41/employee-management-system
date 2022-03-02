@@ -1,6 +1,6 @@
 const sql = require('mysql2')
 
-const route = mysql.createRoute({
+const route = sql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',

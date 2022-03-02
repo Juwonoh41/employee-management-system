@@ -8,10 +8,10 @@ class employee_management{
     //dept
     allDepartments(){
         return this.route.promise().query(
-            "SELECT department.id, department.name FROM department;" );
+            "SELECT * FROM department;" );
         }
     addDept(department){
-        return this.route.promise().query('INSERT into deptartment SET ?', department)
+        return this.route.promise().query('INSERT into department SET ?', department)
 
     }
     //roles
@@ -20,7 +20,7 @@ class employee_management{
     }
 
     addRole(role){
-        return this.connection.promise().query("INSERT INTO role SET ?", role);
+        return this.route.promise().query("INSERT INTO role SET ?", role);
     }
 
     //employees
@@ -29,16 +29,16 @@ class employee_management{
         )
     }
     
-    addEmployee(){
-        return this.connection.promise().query("INSERT INTO employee SET ?", employee);
+    addEmployee(employee){
+        return this.route.promise().query("INSERT INTO employee SET ?", employee);
     }
 
-    updateEmployee(){
-        return this.connection.promise().query( "UPDATE employee SET role_id = ? WHERE id = ?",[roleId, employeeId])
+    updateEmployee(rId, eId){
+        return this.route.promise().query( "UPDATE employee SET role_id = ? WHERE id = ?",[rId, eId])
     }
 
 
 
 }
 
-moduele.exports = new employee_management(route)
+module.exports = new employee_management(route)

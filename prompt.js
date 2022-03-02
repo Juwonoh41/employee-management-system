@@ -52,48 +52,55 @@ function questions(){
             ]
         }
     ]).then((res) => {
-        let option = res.option;
+        let option = res.options;
         switch(option){
+            
             case "ALL_DEPARTMENTS":
+                console.log(hello)
                 allDept();
                 break;
             case "ADD_DEPARTMENTS":
-                addDeptartment()
+                addDepartment()
                 break;
             case "ALL_ROLES":
                 seeRoles()
-                break
+                break;
             case "ADD_ROLES":
                 createRoles()
-                break
-            case "ALL_EMPLOYEE":
+                break;
+            case "ALL_EMPLOYEES":
                 seeEmployees()
-                break
-            case "ADD_EMPLOYEE":
+                break;
+            case "ADD_EMPLOYEES":
                 createEmployee()
-                break
-            case "UPDATE_EMPLOYEE":
+                break;
+            case "UPDATE_EMPLOYEES":
+                console.log('hello')
                 putEmployee()
-                break
-            default:
-                fin()          
+                break;
+            default: 
+                fin()  
+                        
         }
     })
 }
 
 function allDept(){
+    console.log("hello")
     db.allDepartments()
         .then(([tea]) => {
+            console.log("hello")
             let dept = tea
             console.log('\n')
-            console.log(depts)
+            console.log(dept)
         }).then(() => questions())
 }
 
-function addDeptartment(){
+function addDepartment(){
+    console.log("hello")
     prompt([
         {
-          name: "adding department questionos",
+          name: "name",
           message: "Enter the department name."
         }
       ]).then(res => {
@@ -122,20 +129,20 @@ function createRoles(){
         }))
         prompt([
             {
-                name: "position",
+                name: "title",
                 message: "Enter the name of the role"
             },
             {
                 type: "list",
-                name: "dept",
+                name: "department_id",
                 message: "Click on the dept the role belongs too.",
                 choices: deptOptions
             }, 
             {
-                name: "pay",
+                name: "salary",
                 message: "How much do they make?"
             }
-        ]).then( pos => {
+        ]).then( (pos) => {
             db.addRole(pos).then(() => {
                 console.log('\n')
                 console.log(`${pos.title} added.`)
@@ -176,11 +183,11 @@ function createEmployee(){
             prompt(
                 {
                     type: 'list', 
-                    name: 'roleTitle',
+                    name: 'role_id',
                     message: 'Employees role',
                     choices: roleOptions
                 }).then(res => {
-                    let roleId = res.roleId
+                    let roleId = res.role_id
                     db.allEmployees().then(([tea]) => {
                        let employee = tea 
                        const employeeOptions = employee.map(({ id, first_name, last_name }) => ({
@@ -190,12 +197,12 @@ function createEmployee(){
                        employeeOptions.unshift({ name: "None", value: null })
                        prompt({
                         type: "list",
-                        name: "managerId",
+                        name: "manager_id",
                         message: "Select the Manager Id",
                         choices: employeeOptions
                       }).then(res => {
                         let employee = {
-                          manager_id: res.managerId,
+                          manager_id: res.manager_id,
                           role_id: roleId,
                           first_name: firstName,
                           last_name: lastName
@@ -228,7 +235,7 @@ function putEmployee(){
           choices: employeeOptions
         }
       ]).then(res => {
-          let employeeId = res.employeeId;
+          let eId = res.eId;
           db.allRoles()
             .then(([tea]) => {
               let roles = tea;
